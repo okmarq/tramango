@@ -24,12 +24,12 @@ class BookingPolicy
     public function view(User $user, Booking $booking): bool
     {
         return $user->isAdmin() || $user->id === $booking->user_id;
-    }
+}
 
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
+    public function create(): bool
     {
         return Auth::check();
     }
@@ -55,13 +55,13 @@ class BookingPolicy
      */
     public function restore(User $user, Booking $booking): bool
     {
-        return $user->isAdmin();
+        return $user->isAdmin() || $user->id === $booking->user_id;
     }
 
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Booking $booking): bool
+    public function forceDelete(User $user): bool
     {
         return $user->isAdmin();
     }

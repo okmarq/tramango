@@ -15,32 +15,32 @@ class HotelPolicy
         return $user->isAdmin();
     }
 
-    public function view(User $user, Hotel $hotel): bool
-    {
-        return $user->isAdmin() || $user->id === $hotel->user_id;
-    }
-
-    public function create(User $user): bool
-    {
-        return Auth::check();
-    }
-
-    public function update(User $user, Hotel $hotel): bool
-    {
-        return $user->id === $hotel->user_id;
-    }
-
-    public function delete(User $user, Hotel $hotel): bool
-    {
-        return $user->id === $hotel->user_id;
-    }
-
-    public function restore(User $user, Hotel $hotel): bool
+    public function view(User $user): bool
     {
         return $user->isAdmin();
     }
 
-    public function forceDelete(User $user, Hotel $hotel): bool
+    public function create(): bool
+    {
+        return Auth::check();
+    }
+
+    public function update(User $user): bool
+    {
+        return $user->isAdmin();
+    }
+
+    public function delete(User $user): bool
+    {
+        return $user->isAdmin();
+    }
+
+    public function restore(User $user): bool
+    {
+        return $user->isAdmin();
+    }
+
+    public function forceDelete(User $user): bool
     {
         return $user->isAdmin();
     }
