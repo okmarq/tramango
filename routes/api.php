@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HotelController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -19,8 +20,12 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
+Route::post('/register', [AuthController::class, 'register'])->name('register');
+Route::post('/register/admin', [AuthController::class, 'registerAdmin'])->name('register.admin');
+Route::post('/login', [AuthController::class, 'login'])->name('login');
+
 Route::apiResource('hotels', HotelController::class);
 
 Route::group(['middleware'=> ['auth:sanctum']], function() {
-
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });

@@ -6,9 +6,14 @@ use App\Models\Hotel;
 use App\Http\Requests\StoreHotelRequest;
 use App\Http\Requests\UpdateHotelRequest;
 use App\Http\Resources\HotelResource;
+use Illuminate\Support\Facades\Auth;
 
 class HotelController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Hotel::class);
+    }
     /**
      * Display a listing of the resource.
      */
