@@ -5,6 +5,7 @@ use App\Http\Controllers\FlightController;
 use App\Http\Controllers\HotelController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\StatusController;
+use App\Http\Controllers\TourController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,10 +27,11 @@ Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/register/admin', [AuthController::class, 'registerAdmin'])->name('register.admin');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 
-Route::apiResource('hotels', HotelController::class);
 Route::apiResource('flights',FlightController::class);
-Route::apiResource('statuses', StatusController::class);
+Route::apiResource('hotels', HotelController::class);
 Route::apiResource('roles', RoleController::class);
+Route::apiResource('statuses', StatusController::class);
+Route::apiResource('tours', TourController::class);
 
 Route::group(['middleware'=> ['auth:sanctum']], function() {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

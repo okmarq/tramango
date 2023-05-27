@@ -23,7 +23,7 @@ class UpdateFlightRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:32|unique:hotels,name'
+            'name' => 'required|string|max:32|unique:flights,name'
         ];
     }
 }
