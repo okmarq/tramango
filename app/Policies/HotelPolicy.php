@@ -13,7 +13,7 @@ class HotelPolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -21,7 +21,7 @@ class HotelPolicy
      */
     public function view(User $user, Hotel $hotel): bool
     {
-        //
+        return true;
     }
 
     /**

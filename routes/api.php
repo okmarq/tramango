@@ -1,11 +1,11 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\FlightController;
-use App\Http\Controllers\HotelController;
-use App\Http\Controllers\RoleController;
-use App\Http\Controllers\StatusController;
-use App\Http\Controllers\TourController;
+use App\Http\Controllers\Admin\FlightController;
+use App\Http\Controllers\Admin\HotelController;
+use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\StatusController;
+use App\Http\Controllers\Admin\TourController;
 use Illuminate\Support\Facades\Route;
 
 /*

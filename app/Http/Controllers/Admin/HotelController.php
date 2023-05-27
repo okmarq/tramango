@@ -1,19 +1,19 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Hotel;
 use App\Http\Requests\StoreHotelRequest;
 use App\Http\Requests\UpdateHotelRequest;
 use App\Http\Resources\HotelResource;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use Illuminate\Support\Facades\Auth;
 
 class HotelController extends Controller
 {
     public function __construct()
     {
-        $this->authorizeResource(Hotel::class);
+//        $this->authorizeResource(Hotel::class);
     }
 
     public function index(): AnonymousResourceCollection
