@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\HotelController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\StatusController;
 use App\Http\Controllers\Admin\TourController;
+use App\Http\Controllers\TravelOptionController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -33,6 +34,7 @@ Route::apiResource('hotels', HotelController::class);
 Route::apiResource('roles', RoleController::class);
 Route::apiResource('statuses', StatusController::class);
 Route::apiResource('tours', TourController::class);
+Route::apiResource('travels', TravelOptionController::class);
 Route::apiResource('users', UserController::class);
 
 Route::group(['middleware'=> ['auth:sanctum']], function() {
