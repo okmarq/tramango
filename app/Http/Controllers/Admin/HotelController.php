@@ -7,6 +7,7 @@ use App\Models\Hotel;
 use App\Http\Requests\StoreHotelRequest;
 use App\Http\Requests\UpdateHotelRequest;
 use App\Http\Resources\HotelResource;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class HotelController extends Controller
@@ -16,8 +17,12 @@ class HotelController extends Controller
 //        $this->authorizeResource(Hotel::class);
     }
 
+    /**
+     * @throws AuthorizationException
+     */
     public function index(): AnonymousResourceCollection
     {
+        $this->authorize('view', Hotel::class);
         return HotelResource::collection(Hotel::all());
     }
 
