@@ -25,8 +25,8 @@ class TravelOption extends Model
     {
         return $this->morphTo();
     }
-//    public function status(): BelongsTo
-//    {
-//        return $this->belongsTo(Status::class);
-//    }
+    public function location(): BelongsTo
+    {
+        return $this->belongsTo(Location::class);
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateTravelOptionRequest extends FormRequest
@@ -11,18 +12,23 @@ class UpdateTravelOptionRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array|string>
+     * @return array<string, ValidationRule|array|string>
      */
     public function rules(): array
     {
         return [
-            //
+            'travellable_id' => 'required',
+            'travellable_type' => 'string|required',
+            'price' => 'required',
+            'start_date' => 'required',
+            'end_date' => 'required',
+            'location_id' => 'required'
         ];
     }
 }

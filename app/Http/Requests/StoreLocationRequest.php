@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateTourRequest extends FormRequest
+class StoreLocationRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,7 +23,7 @@ class UpdateTourRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:32|unique:tours,name'
+            'name' => 'required|string|max:32|unique:locations,name'
         ];
     }
 }
