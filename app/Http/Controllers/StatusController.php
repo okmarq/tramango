@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateStatusRequest;
 use App\Http\Resources\StatusResource;
 use App\Models\Status;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Facades\Cache;
 
 class StatusController extends Controller
 {
@@ -17,7 +18,9 @@ class StatusController extends Controller
     }
     public function index(): AnonymousResourceCollection
     {
-        return StatusResource::collection(Status::all());
+        $cacheKey = 'statuses';
+        $cacheTime = 3600;
+        return Cache::remember($cacheKey, $cacheTime, fn () => StatusResource::collection(Status::all()));
     }
 
     public function store(StoreStatusRequest $request): StatusResource
@@ -28,7 +31,11 @@ class StatusController extends Controller
 
     public function show(Status $status): StatusResource
     {
-        return new StatusResource($status);
+        $cacheKey = 'status_' . $status;
+        $cacheTime = 3600;
+        return Cache::remember($cacheKey, $cacheTime, function () use ($status) {
+            return new StatusResource($status);
+        });
     }
 
     public function update(UpdateStatusRequest $request, Status $status): StatusResource

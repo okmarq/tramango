@@ -9,6 +9,7 @@ use App\Http\Resources\HotelResource;
 use App\Models\Hotel;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Facades\Cache;
 
 class HotelController extends Controller
 {
@@ -23,7 +24,9 @@ class HotelController extends Controller
     public function index(): AnonymousResourceCollection
     {
         $this->authorize('view', Hotel::class);
-        return HotelResource::collection(Hotel::all());
+        $cacheKey = 'hotels';
+        $cacheTime = 3600;
+        return Cache::remember($cacheKey, $cacheTime, fn () => HotelResource::collection(Hotel::all()));
     }
 
     public function store(StoreHotelRequest $request): HotelResource
@@ -34,7 +37,11 @@ class HotelController extends Controller
 
     public function show(Hotel $hotel): HotelResource
     {
-        return new HotelResource($hotel);
+        $cacheKey = 'hotel_' . $hotel;
+        $cacheTime = 3600;
+        return Cache::remember($cacheKey, $cacheTime, function () use ($hotel) {
+            return new HotelResource($hotel);
+        });
     }
 
     public function update(UpdateHotelRequest $request, Hotel $hotel): HotelResource

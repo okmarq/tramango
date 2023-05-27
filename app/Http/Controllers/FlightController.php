@@ -8,6 +8,7 @@ use App\Http\Resources\FlightResource;
 use App\Models\Flight;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Cache;
 
 class FlightController extends Controller
 {
@@ -18,7 +19,9 @@ class FlightController extends Controller
 
     public function index(): AnonymousResourceCollection
     {
-        return FlightResource::collection(Flight::all());
+        $cacheKey = 'flights';
+        $cacheTime = 3600;
+        return Cache::remember($cacheKey, $cacheTime, fn () => FlightResource::collection(Flight::all()));
     }
 
     public function store(StoreFlightRequest $request): FlightResource
@@ -29,7 +32,11 @@ class FlightController extends Controller
 
     public function show(Flight $flight): FlightResource
     {
-        return new FlightResource($flight);
+        $cacheKey = 'flight_' . $flight;
+        $cacheTime = 3600;
+        return Cache::remember($cacheKey, $cacheTime, function () use ($flight) {
+            return new FlightResource($flight);
+        });
     }
 
     public function update(UpdateFlightRequest $request, Flight $flight): FlightResource

@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateRoleRequest;
 use App\Http\Resources\RoleResource;
 use App\Models\Role;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Facades\Cache;
 
 class RoleController extends Controller
 {
@@ -18,7 +19,9 @@ class RoleController extends Controller
 
     public function index(): AnonymousResourceCollection
     {
-        return RoleResource::collection(Role::all());
+        $cacheKey = 'roles';
+        $cacheTime = 3600;
+        return Cache::remember($cacheKey, $cacheTime, fn () => RoleResource::collection(Role::all()));
     }
 
     public function store(StoreRoleRequest $request): RoleResource
@@ -29,7 +32,11 @@ class RoleController extends Controller
 
     public function show(Role $role): RoleResource
     {
-        return new RoleResource($role);
+        $cacheKey = 'role_' . $role;
+        $cacheTime = 3600;
+        return Cache::remember($cacheKey, $cacheTime, function () use ($role) {
+            return new RoleResource($role);
+        });
     }
 
     public function update(UpdateRoleRequest $request, Role $role): RoleResource

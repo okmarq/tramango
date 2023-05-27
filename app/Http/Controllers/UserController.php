@@ -7,12 +7,15 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Cache;
 
 class UserController extends Controller
 {
     public function index(): AnonymousResourceCollection
     {
-        return UserResource::collection(User::all());
+        $cacheKey = 'bookings';
+        $cacheTime = 3600;
+        return Cache::remember($cacheKey, $cacheTime, fn () => UserResource::collection(User::all()));
     }
 
     public function store(Request $request): UserResource
@@ -23,7 +26,11 @@ class UserController extends Controller
 
     public function show(User $user): UserResource
     {
-        return new UserResource($user);
+        $cacheKey = 'user_' . $user;
+        $cacheTime = 3600;
+        return Cache::remember($cacheKey, $cacheTime, function () use ($user) {
+            return new UserResource($user);
+        });
     }
 
     public function update(Request $request, User $user): UserResource

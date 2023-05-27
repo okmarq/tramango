@@ -9,12 +9,15 @@ use App\Http\Resources\TourResource;
 use App\Models\Tour;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Cache;
 
 class TourController extends Controller
 {
     public function index(): AnonymousResourceCollection
     {
-        return TourResource::collection(Tour::all());
+        $cacheKey = 'tours';
+        $cacheTime = 3600;
+        return Cache::remember($cacheKey, $cacheTime, fn () => TourResource::collection(Tour::all()));
     }
 
     public function store(StoreTourRequest $request): TourResource
@@ -25,7 +28,11 @@ class TourController extends Controller
 
     public function show(Tour $tour): TourResource
     {
-        return new TourResource($tour);
+        $cacheKey = 'tour_' . $tour;
+        $cacheTime = 3600;
+        return Cache::remember($cacheKey, $cacheTime, function () use ($tour) {
+            return new TourResource($tour);
+        });
     }
 
     public function update(UpdateTourRequest $request, Tour $tour): TourResource

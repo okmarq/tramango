@@ -8,12 +8,15 @@ use App\Http\Requests\StoreTravelOptionRequest;
 use App\Http\Requests\UpdateTravelOptionRequest;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Cache;
 
 class TravelOptionController extends Controller
 {
     public function index(): AnonymousResourceCollection
     {
-        return TravelOptionResource::collection(TravelOption::all());
+        $cacheKey = 'travel_options';
+        $cacheTime = 3600;
+        return Cache::remember($cacheKey, $cacheTime, fn () => TravelOptionResource::collection(TravelOption::all()));
     }
 
     public function store(StoreTravelOptionRequest $request): TravelOptionResource
@@ -24,7 +27,11 @@ class TravelOptionController extends Controller
 
     public function show(TravelOption $travelOption): TravelOptionResource
     {
-        return new TravelOptionResource($travelOption);
+        $cacheKey = 'travel_option_' . $travelOption;
+        $cacheTime = 3600;
+        return Cache::remember($cacheKey, $cacheTime, function () use ($travelOption) {
+            return new TravelOptionResource($travelOption);
+        });
     }
 
     public function update(UpdateTravelOptionRequest $request, TravelOption $travelOption): TravelOptionResource
