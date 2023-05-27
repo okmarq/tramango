@@ -12,6 +12,7 @@ class Role extends Model
     public const ADMIN = 1;
     public const USER = 2;
     protected $fillable = ['name'];
+    protected $hidden = ['pivot'];
     protected $guarded = ['id'];
     public $timestamps = false;
 

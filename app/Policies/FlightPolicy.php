@@ -15,7 +15,7 @@ class FlightPolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -23,7 +23,7 @@ class FlightPolicy
      */
     public function view(User $user, Flight $flight): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -31,7 +31,7 @@ class FlightPolicy
      */
     public function create(User $user): bool
     {
-        return $user->isAdmin();
+        return true;
     }
 
     /**
@@ -39,7 +39,7 @@ class FlightPolicy
      */
     public function update(User $user, Flight $flight): bool
     {
-        return $user->isAdmin();
+        return true;
     }
 
     /**
@@ -47,7 +47,7 @@ class FlightPolicy
      */
     public function delete(User $user, Flight $flight): bool
     {
-        return $user->isAdmin();
+        return true;
     }
 
     /**
@@ -55,7 +55,7 @@ class FlightPolicy
      */
     public function restore(User $user, Flight $flight): bool
     {
-        return $user->isAdmin();
+        return true;
     }
 
     /**
@@ -63,6 +63,6 @@ class FlightPolicy
      */
     public function forceDelete(User $user, Flight $flight): bool
     {
-        return $user->isAdmin();
+        return true;
     }
 }

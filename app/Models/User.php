@@ -34,6 +34,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'pivot'
     ];
 
     /**
@@ -49,20 +50,5 @@ class User extends Authenticatable
     public function roles(): BelongsToMany
     {
         return $this->belongsToMany(Role::class);
-    }
-
-    public function assignRole(Role $role): null
-    {
-        return $this->roles()->attach($role);
-    }
-
-    public function hasRole(string $role): bool
-    {
-        return !!$role->intersect($this->roles())->count();
-    }
-
-    public function isAdmin(): bool
-    {
-        return $this->hasRole('admin');
     }
 }

@@ -30,9 +30,7 @@ class Handler extends ExceptionHandler
         });
 
         $this->renderable(function (NotFoundHttpException $e, $request) {
-            if ($request->is('api/*')) return response()->json(['message' => 'Resource not found.'], 404);
-
-            if ($e instanceof ModelNotFoundException && $request->wantsJson()) return response()->json(['data' => 'Resource not found'], 404);
+            if ($request->is('api/*')) return response()->json(['message' => 'Record not found.'], 404);
         });
     }
 }

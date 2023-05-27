@@ -12,6 +12,11 @@ use Illuminate\Http\Response;
 
 class FlightController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Flight::class);
+    }
+
     public function index(): AnonymousResourceCollection
     {
         return FlightResource::collection(Flight::all());
