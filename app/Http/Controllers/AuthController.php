@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Response;
@@ -15,8 +16,8 @@ class AuthController extends Controller
     {
         $request->merge(['password' => Hash::make($request['password'])]);
         $user = User::create($request->all());
-//        $role = Role::ADMIN;
-//        $user->assignRole($role);
+        $role = Role::ADMIN;
+        $user->assignRole($role);
         $token = $user->createToken('Register')->plainTextToken;
 
         return response([
@@ -29,6 +30,8 @@ class AuthController extends Controller
     {
         $request->merge(['password' => Hash::make($request['password'])]);
         $user = User::create($request->all());
+        $role = Role::USER;
+        $user->assignRole($role);
         $token = $user->createToken('Register')->plainTextToken;
 
         return response([

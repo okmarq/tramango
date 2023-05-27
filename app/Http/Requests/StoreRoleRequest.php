@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateHotelRequest extends FormRequest
+class StoreRoleRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,7 +23,7 @@ class UpdateHotelRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:32|unique:hotels,name'
+            'name' => 'required|string|max:32|unique:roles,name'
         ];
     }
 }
