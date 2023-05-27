@@ -17,12 +17,12 @@ return new class extends Migration
                 ->constrained()
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
-            $table->id();$table->foreignId('travel_option_id')
+            $table->foreignId('travel_option_id')
                 ->constrained()
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
             $table->integer('number_of_guests');
-            $table->id();$table->foreignId('status_id')
+            $table->foreignId('status_id')
                 ->constrained()
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();

@@ -15,12 +15,12 @@ return new class extends Migration
             $table->id();
             $table->morphs('travellable');
             $table->decimal('price', $precision = 8, $scale = 2);
-            $table->id();$table->foreignId('location_id')
+            $table->foreignId('location_id')
                 ->constrained()
                 ->cascadeOnUpdate()
                 ->restrictOnDelete();
-            $table->timestamp('start_date');
-            $table->timestamp('end_date');
+            $table->timestamp('start_date')->nullable();
+            $table->timestamp('end_date')->nullable();
             $table->softDeletes();
         });
     }

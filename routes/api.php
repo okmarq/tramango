@@ -31,16 +31,16 @@ Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/admin/register', [AuthController::class, 'registerAdmin'])->name('register.admin');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 
-Route::apiResource('bookings',BookingController::class);
-Route::apiResource('flights',FlightController::class);
-Route::apiResource('hotels', HotelController::class);
-Route::apiResource('roles', RoleController::class);
-Route::apiResource('locations', LocationController::class);
-Route::apiResource('statuses', StatusController::class);
-Route::apiResource('tours', TourController::class);
-Route::apiResource('travels', TravelOptionController::class);
-Route::apiResource('users', UserController::class);
-
 Route::group(['middleware'=> ['auth:sanctum']], function() {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+    Route::apiResource('bookings',BookingController::class);
+    Route::apiResource('flights',FlightController::class);
+    Route::apiResource('hotels', HotelController::class);
+    Route::apiResource('roles', RoleController::class);
+    Route::apiResource('locations', LocationController::class);
+    Route::apiResource('statuses', StatusController::class);
+    Route::apiResource('tours', TourController::class);
+    Route::apiResource('travels', TravelOptionController::class);
+    Route::apiResource('users', UserController::class);
 });
