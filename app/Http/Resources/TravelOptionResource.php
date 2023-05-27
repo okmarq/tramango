@@ -17,8 +17,9 @@ class TravelOptionResource extends JsonResource
         return [
             'name' => $this->name,
             'price' => $this->price,
-//            'location' => $this->location->name,
-            'travellable' => $this->travellable
+            'location' => $this->location->name,
+            'travellable' => $this->travellable,
+            'bookings' => $this->bookings
         ];
     }
 }

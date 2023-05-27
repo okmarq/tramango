@@ -14,6 +14,6 @@ class Status extends Model
     public $timestamps = false;
     public function bookings(): HasMany
     {
-//        return $this->hasMany(Bookings::class);
+        return $this->hasMany(Bookings::class);
     }
 }

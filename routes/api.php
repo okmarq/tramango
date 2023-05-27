@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\FlightController;
 use App\Http\Controllers\HotelController;
 use App\Http\Controllers\RoleController;
@@ -30,6 +31,7 @@ Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/admin/register', [AuthController::class, 'registerAdmin'])->name('register.admin');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 
+Route::apiResource('bookings',BookingController::class);
 Route::apiResource('flights',FlightController::class);
 Route::apiResource('hotels', HotelController::class);
 Route::apiResource('roles', RoleController::class);
