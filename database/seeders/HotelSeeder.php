@@ -15,8 +15,12 @@ class HotelSeeder extends Seeder
     {
         $hotels = [
             [
-                'name' => strtolower('Eko Atlantic'),
-                'name' => strtolower('Le Meridien'),
+                'name' => strtolower('Eko Atlantic')
+            ],
+            [
+                'name' => strtolower('Le Meridien')
+            ],
+            [
                 'name' => strtolower('Monty Suites')
             ]
         ];
