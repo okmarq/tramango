@@ -23,12 +23,12 @@ class UpdateTravelOptionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'travellable_id' => 'required',
-            'travellable_type' => 'string|required',
-            'price' => 'required',
-            'start_date' => 'required',
-            'end_date' => 'required',
-            'location_id' => 'required'
+            'travel_id' => 'required',
+            'travel_type' => 'string|required',
+            'location_id' => 'required',
+            'price' => 'required|decimal:2',
+            'start_date' => 'required|date|after_or_equal:today',
+            'end_date' => 'required|date|after:start_date'
         ];
     }
 }

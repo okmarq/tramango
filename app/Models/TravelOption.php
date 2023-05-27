@@ -17,10 +17,10 @@ class TravelOption extends Model
     protected $fillable = [
         'travellable_id',
         'travellable_type',
+        'location_id',
         'price',
         'start_date',
-        'end_date',
-        'location_id'
+        'end_date'
     ];
     public function travellable(): MorphTo
     {
