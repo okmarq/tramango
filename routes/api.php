@@ -28,10 +28,10 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::post('/register', [AuthController::class, 'register'])->name('register');
-Route::post('/admin/register', [AuthController::class, 'registerAdmin'])->name('register.admin');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 
 Route::group(['middleware'=> ['auth:sanctum']], function() {
+    Route::post('/admin/register', [AuthController::class, 'registerAdmin'])->name('register.admin');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
     Route::apiResource('bookings',BookingController::class);

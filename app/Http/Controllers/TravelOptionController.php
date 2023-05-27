@@ -12,6 +12,11 @@ use Illuminate\Support\Facades\Cache;
 
 class TravelOptionController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(TravelOption::class);
+    }
+
     public function index(): AnonymousResourceCollection
     {
         $cacheKey = 'travel_options';

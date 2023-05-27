@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Admin\Controller;
 use App\Http\Requests\StoreTourRequest;
 use App\Http\Requests\UpdateTourRequest;
 use App\Http\Resources\TourResource;
@@ -13,6 +12,11 @@ use Illuminate\Support\Facades\Cache;
 
 class TourController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Tour::class);
+    }
+
     public function index(): AnonymousResourceCollection
     {
         $cacheKey = 'tours';

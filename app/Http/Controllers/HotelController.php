@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Admin\Response;
 use App\Http\Requests\StoreHotelRequest;
 use App\Http\Requests\UpdateHotelRequest;
 use App\Http\Resources\HotelResource;
 use App\Models\Hotel;
-use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Cache;
 
@@ -15,15 +13,11 @@ class HotelController extends Controller
 {
     public function __construct()
     {
-//        $this->authorizeResource(Hotel::class);
+        $this->authorizeResource(Hotel::class);
     }
 
-    /**
-     * @throws AuthorizationException
-     */
     public function index(): AnonymousResourceCollection
     {
-        $this->authorize('view', Hotel::class);
         $cacheKey = 'hotels';
         $cacheTime = 3600;
         return Cache::remember($cacheKey, $cacheTime, fn () => HotelResource::collection(Hotel::all()));

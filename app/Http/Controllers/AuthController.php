@@ -9,15 +9,17 @@ use App\Models\User;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
     public function registerAdmin(StoreUserRequest $request): Response
     {
+        Gate::allowIf(fn(User $user) => $user->isAdmin());
         $request->merge(['password' => Hash::make($request['password'])]);
         $user = User::create($request->all());
-        $role = Role::find(Role::ADMIN);
+        $role = Role::find(Role::IS_ADMIN);
         $user->roles()->attach($role);
         $token = $user->createToken('Register')->plainTextToken;
 
@@ -31,7 +33,7 @@ class AuthController extends Controller
     {
         $request->merge(['password' => Hash::make($request['password'])]);
         $user = User::create($request->all());
-        $role = Role::find(Role::USER);
+        $role = Role::find(Role::IS_USER);
         $user->roles()->attach($role);
         $token = $user->createToken('Register')->plainTextToken;
 

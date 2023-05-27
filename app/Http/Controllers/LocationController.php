@@ -12,6 +12,11 @@ use Illuminate\Support\Facades\Cache;
 
 class LocationController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Location::class);
+    }
+
     public function index(): AnonymousResourceCollection
     {
         $cacheKey = 'locations';

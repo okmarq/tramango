@@ -12,6 +12,11 @@ use Illuminate\Support\Facades\Cache;
 
 class BookingController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Booking::class);
+    }
+
     public function index(): AnonymousResourceCollection
     {
         $cacheKey = 'bookings';

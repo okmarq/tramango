@@ -56,4 +56,17 @@ class User extends Authenticatable
     {
         return $this->hasMany(Booking::class);
     }
+    public function hasRole(string|array|int $role): bool
+    {
+        if (is_string($role)) return $this->roles->contains('name', $role);
+        if (is_array($role)) return in_array($role, $this->roles);
+        if (is_int($role)) return Role::find($role)->name;
+        # if collection // return !!$role->intersect($this->roles)->count();
+        return false;
+    }
+    public function isAdmin(): bool
+    {
+        return $this->hasRole('admin');
+    }
+
 }

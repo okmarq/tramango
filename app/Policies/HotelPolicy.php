@@ -5,61 +5,41 @@ namespace App\Policies;
 use App\Models\Hotel;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Support\Facades\Auth;
 
 class HotelPolicy
 {
     use HandlesAuthorization;
-    /**
-     * Determine whether the user can view any models.
-     */
     public function viewAny(User $user): bool
     {
-        return true;
+        return $user->isAdmin();
     }
 
-    /**
-     * Determine whether the user can view the model.
-     */
     public function view(User $user, Hotel $hotel): bool
     {
-        return true;
+        return $user->isAdmin() || $user->id === $hotel->user_id;
     }
 
-    /**
-     * Determine whether the user can create models.
-     */
     public function create(User $user): bool
     {
-        return $user->isAdmin();
+        return Auth::check();
     }
 
-    /**
-     * Determine whether the user can update the model.
-     */
     public function update(User $user, Hotel $hotel): bool
     {
-        return $user->isAdmin();
+        return $user->id === $hotel->user_id;
     }
 
-    /**
-     * Determine whether the user can delete the model.
-     */
     public function delete(User $user, Hotel $hotel): bool
     {
-        return $user->isAdmin();
+        return $user->id === $hotel->user_id;
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     */
     public function restore(User $user, Hotel $hotel): bool
     {
         return $user->isAdmin();
     }
 
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
     public function forceDelete(User $user, Hotel $hotel): bool
     {
         return $user->isAdmin();
