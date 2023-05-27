@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\FlightController;
 use App\Http\Controllers\HotelController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\StatusController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,6 +27,8 @@ Route::post('/register/admin', [AuthController::class, 'registerAdmin'])->name('
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 
 Route::apiResource('hotels', HotelController::class);
+Route::apiResource('flights',FlightController::class);
+Route::apiResource('statuses', StatusController::class);
 Route::apiResource('roles', RoleController::class);
 
 Route::group(['middleware'=> ['auth:sanctum']], function() {

@@ -16,43 +16,28 @@ class StatusController extends Controller
     {
         $this->authorizeResource(Status::class);
     }
-    /**
-     * Display a listing of the resource.
-     */
     public function index(): AnonymousResourceCollection
     {
         return StatusResource::collection(Status::all());
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreStatusRequest $request): StatusResource
     {
         $status = Status::create($request->all());
         return new StatusResource($status);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Status $status): StatusResource
     {
         return new StatusResource($status);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateStatusRequest $request, Status $status): StatusResource
     {
         $status->update($request->all());
         return new StatusResource($status);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Status $status): Response
     {
         $status->delete();
