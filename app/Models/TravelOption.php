@@ -15,6 +15,7 @@ class TravelOption extends Model
     protected $guarded = ['id'];
     public $timestamps = false;
     protected $fillable = [
+        'type',
         'travellable_id',
         'travellable_type',
         'location_id',

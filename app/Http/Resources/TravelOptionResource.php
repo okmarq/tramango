@@ -15,11 +15,13 @@ class TravelOptionResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'name' => $this->name,
-            'price' => $this->price,
+            'type'=>$this->type,
+            'travel-type' => $this->travellable->name,
             'location' => $this->location->name,
-            'travellable' => $this->travellable,
-            'bookings' => $this->bookings
+            'price' => $this->price,
+            'start_date'=> $this->start_date,
+            'end_date'=> $this->end_date,
+            'bookings' => BookingResource::collection($this->bookings)
         ];
     }
 }

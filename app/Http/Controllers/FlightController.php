@@ -6,6 +6,7 @@ use App\Http\Requests\StoreFlightRequest;
 use App\Http\Requests\UpdateFlightRequest;
 use App\Http\Resources\FlightResource;
 use App\Models\Flight;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
@@ -22,6 +23,13 @@ class FlightController extends Controller
         $cacheKey = 'flights';
         $cacheTime = 3600;
         return Cache::remember($cacheKey, $cacheTime, fn () => FlightResource::collection(Flight::all()));
+    }
+
+    public function flightOptions(Request $request)
+    {
+        $cacheTime = 3600;
+        $cacheKey = 'flights_'.$request['term'];
+        return Cache::remember($cacheKey, $cacheTime, fn () => FlightResource::collection(Flight::where('name', 'LIKE', "%{$request['term']}%")->get()));
     }
 
     public function store(StoreFlightRequest $request): FlightResource

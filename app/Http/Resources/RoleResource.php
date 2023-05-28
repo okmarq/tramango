@@ -16,7 +16,7 @@ class RoleResource extends JsonResource
     {
         return [
             'name' => $this->name,
-            'users' => $this->users
+            'users' => UserResource::collection($this->users)
         ];
     }
 }

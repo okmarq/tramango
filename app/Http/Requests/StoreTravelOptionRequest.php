@@ -23,6 +23,7 @@ class StoreTravelOptionRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'type' => 'required|string',
             'travel_id' => 'required',
             'travel_type' => 'string|required',
             'location_id' => 'required',

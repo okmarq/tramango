@@ -6,6 +6,7 @@ use App\Http\Requests\StoreTourRequest;
 use App\Http\Requests\UpdateTourRequest;
 use App\Http\Resources\TourResource;
 use App\Models\Tour;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
@@ -22,6 +23,13 @@ class TourController extends Controller
         $cacheKey = 'tours';
         $cacheTime = 3600;
         return Cache::remember($cacheKey, $cacheTime, fn () => TourResource::collection(Tour::all()));
+    }
+
+    public function tourOptions(Request $request)
+    {
+        $cacheTime = 3600;
+        $cacheKey = 'tours_'.$request['term'];
+        return Cache::remember($cacheKey, $cacheTime, fn () => TourResource::collection(Tour::where('name', 'LIKE', "%{$request['term']}%")->get()));
     }
 
     public function store(StoreTourRequest $request): TourResource

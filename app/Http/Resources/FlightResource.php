@@ -16,7 +16,7 @@ class FlightResource extends JsonResource
     {
         return [
             'name' => $this->name,
-            'travel_options' => $this->travelOptions
+            'travel_options' => TravelOptionResource::collection($this->travelOptions)
         ];
     }
 }

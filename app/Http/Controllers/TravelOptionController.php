@@ -10,6 +10,7 @@ use App\Models\TravelOption;
 use App\Http\Requests\StoreTravelOptionRequest;
 use App\Http\Requests\UpdateTravelOptionRequest;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
@@ -27,11 +28,20 @@ class TravelOptionController extends Controller
         $cacheTime = 3600;
         return Cache::remember($cacheKey, $cacheTime, fn () => TravelOptionResource::collection(TravelOption::all()));
     }
+    public function search(Request $request)
+    {
+        $cacheKey = 'travel_options_'.$request['type'].'_'.$request['location_id'].'_'.$request['date'].'_'.$request['price'];
+        $cacheTime = 3600;
+        $date = Carbon::parse($request['date'])->format('Y-m-d');
+        return Cache::remember($cacheKey, $cacheTime, fn () => TravelOptionResource::collection(TravelOption::where('type', $request['type'])->orWhere('location_id', $request['location_id'])->whereDate('start_date', '<', $date)->whereDate('end_date', '>', $date)->orWhereBetween('price', [0, $request['price']])->get()));
+    }
 
     public function store(StoreTravelOptionRequest $request): TravelOptionResource
     {
         $travelOption = new TravelOption();
-        $travellable = $this->getTravelOption($request['travel_id'], $request['travel_type']);
+        $cacheKey = 'travel_option_'.$request['travel_id'].'_'.$request['travel_type'];
+        $cacheTime = 3600;
+        $travellable = Cache::remember($cacheKey, $cacheTime, fn () => $this->getTravelOption($request['travel_id'], $request['travel_type']));
         $travelType = $travelOption->travellable()->associate($travellable);
         $request->merge([
             'travellable_id'=>$travelType->travellable_id,

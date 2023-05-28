@@ -6,6 +6,7 @@ use App\Http\Requests\StoreHotelRequest;
 use App\Http\Requests\UpdateHotelRequest;
 use App\Http\Resources\HotelResource;
 use App\Models\Hotel;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Cache;
 
@@ -22,7 +23,12 @@ class HotelController extends Controller
         $cacheTime = 3600;
         return Cache::remember($cacheKey, $cacheTime, fn () => HotelResource::collection(Hotel::all()));
     }
-
+    public function hotelOptions(Request $request)
+    {
+        $cacheTime = 3600;
+        $cacheKey = 'hotels_'.$request['term'];
+        return Cache::remember($cacheKey, $cacheTime, fn () => HotelResource::collection(Hotel::where('name', 'LIKE', "%{$request['term']}%")->get()));
+    }
     public function store(StoreHotelRequest $request): HotelResource
     {
         $hotel = Hotel::create($request->all());
