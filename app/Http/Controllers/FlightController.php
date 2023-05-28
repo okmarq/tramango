@@ -25,13 +25,6 @@ class FlightController extends Controller
         return Cache::remember($cacheKey, $cacheTime, fn () => FlightResource::collection(Flight::all()));
     }
 
-    public function flightOptions(Request $request)
-    {
-        $cacheTime = 3600;
-        $cacheKey = 'flights_'.$request['term'];
-        return Cache::remember($cacheKey, $cacheTime, fn () => FlightResource::collection(Flight::where('name', 'LIKE', "%{$request['term']}%")->get()));
-    }
-
     public function store(StoreFlightRequest $request): FlightResource
     {
         $flight = Flight::create($request->all());

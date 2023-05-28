@@ -25,13 +25,6 @@ class TourController extends Controller
         return Cache::remember($cacheKey, $cacheTime, fn () => TourResource::collection(Tour::all()));
     }
 
-    public function tourOptions(Request $request)
-    {
-        $cacheTime = 3600;
-        $cacheKey = 'tours_'.$request['term'];
-        return Cache::remember($cacheKey, $cacheTime, fn () => TourResource::collection(Tour::where('name', 'LIKE', "%{$request['term']}%")->get()));
-    }
-
     public function store(StoreTourRequest $request): TourResource
     {
         $tour = Tour::create($request->all());
