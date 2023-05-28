@@ -16,7 +16,7 @@ class StatusResource extends JsonResource
     {
         return [
             'name' => $this->name,
-            'bookings' => $this->bookings
+            'bookings' => BookingResource::collection($this->bookings)
         ];
     }
 }

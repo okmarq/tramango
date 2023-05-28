@@ -27,20 +27,29 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-Route::post('/register', [AuthController::class, 'register'])->name('register');
-Route::post('/login', [AuthController::class, 'login'])->name('login');
+Route::post('register', [AuthController::class, 'register'])->name('register');
+Route::post('login', [AuthController::class, 'login'])->name('login');
 
 Route::group(['middleware'=> ['auth:sanctum']], function() {
-    Route::post('/admin/register', [AuthController::class, 'registerAdmin'])->name('register.admin');
-    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::post('admin/register', [AuthController::class, 'registerAdmin'])->name('register.admin');
+    Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
     Route::apiResource('bookings',BookingController::class);
+
     Route::apiResource('flights',FlightController::class);
+
     Route::apiResource('hotels', HotelController::class);
-    Route::apiResource('roles', RoleController::class);
-    Route::apiResource('locations', LocationController::class);
-    Route::apiResource('statuses', StatusController::class);
+
     Route::apiResource('tours', TourController::class);
+
+    Route::apiResource('roles', RoleController::class);
+
+    Route::apiResource('locations', LocationController::class);
+
+    Route::apiResource('statuses', StatusController::class);
+
     Route::apiResource('travels', TravelOptionController::class);
+    Route::get('travel/search', [TravelOptionController::class, 'search']);
+
     Route::apiResource('users', UserController::class);
 });

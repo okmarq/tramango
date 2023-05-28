@@ -6,6 +6,7 @@ use App\Http\Resources\BookingResource;
 use App\Models\Booking;
 use App\Http\Requests\StoreBookingRequest;
 use App\Http\Requests\UpdateBookingRequest;
+use App\Models\Status;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
@@ -26,6 +27,8 @@ class BookingController extends Controller
 
     public function store(StoreBookingRequest $request): BookingResource
     {
+        $status = Status::find(Status::IS_PENDING);
+        $request->merge(['status_id'=>$status->id]);
         $booking = Booking::create($request->all());
         return new BookingResource($booking);
     }
