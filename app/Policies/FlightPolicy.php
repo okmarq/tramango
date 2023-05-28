@@ -10,14 +10,14 @@ use Illuminate\Support\Facades\Auth;
 class FlightPolicy
 {
     use HandlesAuthorization;
-    public function viewAny(User $user): bool
+    public function viewAny(): bool
     {
-        return $user->isAdmin();
+        return true;
     }
 
-    public function view(User $user): bool
+    public function view(): bool
     {
-        return $user->isAdmin();
+        return true;
     }
 
     public function create(): bool
