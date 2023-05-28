@@ -18,6 +18,9 @@ class HotelSeeder extends Seeder
                 'name' => strtolower('Eko Atlantic')
             ],
             [
+                'name' => strtolower('Hilton Hotels')
+            ],
+            [
                 'name' => strtolower('Le Meridien')
             ],
             [

@@ -22,6 +22,9 @@ class TourSeeder extends Seeder
             ],
             [
                 'name' => strtolower('Mitsaminda Park')
+            ],
+            [
+                'name' => strtolower('Vegas Casino')
             ]
         ];
         Tour::insert($Tours);

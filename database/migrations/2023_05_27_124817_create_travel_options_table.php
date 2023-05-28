@@ -13,15 +13,17 @@ return new class extends Migration
     {
         Schema::create('travel_options', function (Blueprint $table) {
             $table->id();
+            $table->string('type');
             $table->morphs('travellable');
             $table->decimal('price', $precision = 8, $scale = 2);
             $table->foreignId('location_id')
                 ->constrained()
                 ->cascadeOnUpdate()
                 ->restrictOnDelete();
-            $table->dateTime('start_date')->nullable();
-            $table->dateTime('end_date')->nullable();
+            $table->date('start_date')->nullable();
+            $table->date('end_date')->nullable();
             $table->softDeletes();
+            $table->unique(['type', 'travellable_id', 'location_id']);
         });
     }
 

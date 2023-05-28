@@ -18,6 +18,9 @@ class FlightSeeder extends Seeder
                 'name' => strtolower('British Airways')
             ],
             [
+                'name' => strtolower('Turkish Airways')
+            ],
+            [
                 'name' => strtolower('Air Peace')
             ],
             [

@@ -18,10 +18,13 @@ class LocationSeeder extends Seeder
                 'name' => strtolower('Addis ababa')
             ],
             [
-                'name' => strtolower('Georgia')
+                'name' => strtolower('Tbilisi')
             ],
             [
                 'name' => strtolower('Lagos')
+            ],
+            [
+                'name' => strtolower('Las Vegas')
             ]
         ];
         Location::insert($locations);

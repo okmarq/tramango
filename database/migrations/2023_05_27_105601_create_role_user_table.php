@@ -20,7 +20,7 @@ return new class extends Migration
                 ->constrained()
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
-            $table->unique('role_id', 'user_id');
+            $table->unique(['role_id', 'user_id']);
         });
     }
 

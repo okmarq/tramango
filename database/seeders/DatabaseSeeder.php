@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
             TourSeeder::class,
             RoleSeeder::class,
             StatusSeeder::class,
+            TravelOptionSeeder::class
         ]);
     }
 }
