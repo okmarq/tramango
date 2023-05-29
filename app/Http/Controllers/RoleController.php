@@ -6,7 +6,6 @@ use App\Http\Requests\StoreRoleRequest;
 use App\Http\Requests\UpdateRoleRequest;
 use App\Http\Resources\RoleResource;
 use App\Models\Role;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Cache;
 
 class RoleController extends Controller
@@ -16,7 +15,7 @@ class RoleController extends Controller
         $this->authorizeResource(Role::class);
     }
 
-    public function index(): AnonymousResourceCollection
+    public function index()
     {
         $cacheKey = 'roles';
         $cacheTime = 3600;
@@ -29,9 +28,9 @@ class RoleController extends Controller
         return new RoleResource($role);
     }
 
-    public function show(Role $role): RoleResource
+    public function show(Role $role)
     {
-        $cacheKey = 'role_' . $role;
+        $cacheKey = 'role_' . $role->id;
         $cacheTime = 3600;
         return Cache::remember($cacheKey, $cacheTime, function () use ($role) {
             return new RoleResource($role);

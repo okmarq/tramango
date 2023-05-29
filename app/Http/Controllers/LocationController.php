@@ -6,7 +6,6 @@ use App\Http\Resources\LocationResource;
 use App\Models\Location;
 use App\Http\Requests\StoreLocationRequest;
 use App\Http\Requests\UpdateLocationRequest;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
 
@@ -17,7 +16,7 @@ class LocationController extends Controller
         $this->authorizeResource(Location::class);
     }
 
-    public function index(): AnonymousResourceCollection
+    public function index()
     {
         $cacheKey = 'locations';
         $cacheTime = 3600;
@@ -30,9 +29,9 @@ class LocationController extends Controller
         return new LocationResource($location);
     }
 
-    public function show(Location $location): LocationResource
+    public function show(Location $location)
     {
-        $cacheKey = 'location_' . $location;
+        $cacheKey = 'location_' . $location->id;
         $cacheTime = 3600;
         return Cache::remember($cacheKey, $cacheTime, function () use ($location) {
             return new LocationResource($location);
