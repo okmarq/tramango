@@ -19,7 +19,8 @@ class UserResource extends JsonResource
             'last_name' => $this->last_name,
             'email' => $this->email,
             'roles' => RoleResource::collection($this->roles),
-            'bookings' => BookingResource::collection($this->bookings)
+            'bookings' => BookingResource::collection($this->bookings),
+            'booking_payments'=> PaymentResource::collection($this->bookingPayments)
         ];
     }
 }

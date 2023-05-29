@@ -4,8 +4,9 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\FlightController;
 use App\Http\Controllers\HotelController;
-use App\Http\Controllers\RoleController;
 use App\Http\Controllers\LocationController;
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\StatusController;
 use App\Http\Controllers\TourController;
 use App\Http\Controllers\TravelOptionController;
@@ -52,4 +53,9 @@ Route::group(['middleware'=> ['auth:sanctum']], function() {
     Route::get('travel/search', [TravelOptionController::class, 'search']);
 
     Route::apiResource('users', UserController::class);
+
+    Route::apiResource('payments',PaymentController::class);
+    Route::post('payment/pay', [PaymentController::class, 'pay'])->name('payment');
 });
+
+Route::get('payment/gateways/{provider}/callback/{reference}', [PaymentController::class, 'callback'])->name('payment.gateway.callback');

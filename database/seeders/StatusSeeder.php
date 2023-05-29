@@ -24,6 +24,9 @@ class StatusSeeder extends Seeder
                 'name' => strtolower('pending')
             ],
             [
+                'name' => strtolower('paid')
+            ],
+            [
                 'name' => strtolower('available')
             ],
             [

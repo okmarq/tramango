@@ -17,8 +17,9 @@ class BookingResource extends JsonResource
         return [
             'user' => $this->user,
             'travel_option' => $this->travelOption,
-            'number_of_guests' => $this->number_of_guests,
-            'status' => $this->status
+            'guests' => $this->guests,
+            'status' => $this->status,
+            'payment'=>$this->payment
         ];;
     }
 }

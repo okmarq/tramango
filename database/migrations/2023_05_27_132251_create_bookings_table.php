@@ -21,7 +21,7 @@ return new class extends Migration
                 ->constrained()
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
-            $table->integer('number_of_guests');
+            $table->integer('guests');
             $table->foreignId('status_id')
                 ->constrained()
                 ->cascadeOnUpdate()

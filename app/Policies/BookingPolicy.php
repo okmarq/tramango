@@ -24,7 +24,7 @@ class BookingPolicy
     public function view(User $user, Booking $booking): bool
     {
         return $user->isAdmin() || $user->id === $booking->user_id;
-}
+    }
 
     /**
      * Determine whether the user can create models.

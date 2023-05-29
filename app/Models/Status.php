@@ -12,8 +12,9 @@ class Status extends Model
     public const IS_APPROVED = 1;
     public const IS_DENIED = 2;
     public const IS_PENDING = 3;
-    public const IS_AVAILABLE = 4;
-    public const IS_UNAVAILABLE = 5;
+    public const IS_PAID = 4;
+    public const IS_AVAILABLE = 5;
+    public const IS_UNAVAILABLE = 6;
 
     protected $fillable = ['name'];
     protected $guarded = ['id'];
