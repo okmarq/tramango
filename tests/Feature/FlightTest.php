@@ -2,16 +2,11 @@
 
 namespace Tests\Feature;
 
-use App\Http\Controllers\FlightController;
-use App\Http\Requests\StoreFlightRequest;
-use App\Http\Requests\UpdateFlightRequest;
 use App\Models\Flight;
 use App\Models\Role;
 use App\Models\User;
-use App\Http\Resources\FlightResource;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
 use Tests\TestCase;
 

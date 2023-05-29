@@ -50,7 +50,7 @@ Route::group(['middleware'=> ['auth:sanctum']], function() {
     Route::apiResource('statuses', StatusController::class);
 
     Route::apiResource('travels', TravelOptionController::class);
-    Route::get('travel/search', [TravelOptionController::class, 'search']);
+    Route::get('travel/search', [TravelOptionController::class, 'search'])->name('travel.search');
 
     Route::apiResource('users', UserController::class);
 

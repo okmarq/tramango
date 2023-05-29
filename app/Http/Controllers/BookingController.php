@@ -7,7 +7,6 @@ use App\Models\Booking;
 use App\Http\Requests\StoreBookingRequest;
 use App\Http\Requests\UpdateBookingRequest;
 use App\Models\Status;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
 
@@ -18,7 +17,7 @@ class BookingController extends Controller
         $this->authorizeResource(Booking::class);
     }
 
-    public function index(): AnonymousResourceCollection
+    public function index()
     {
         $cacheKey = 'bookings';
         $cacheTime = 3600;
@@ -33,9 +32,9 @@ class BookingController extends Controller
         return new BookingResource($booking);
     }
 
-    public function show(Booking $booking): BookingResource
+    public function show(Booking $booking)
     {
-        $cacheKey = 'booking_' . $booking;
+        $cacheKey = 'booking_' . $booking->id;
         $cacheTime = 3600;
         return Cache::remember($cacheKey, $cacheTime, function () use ($booking) {
             return new BookingResource($booking);
