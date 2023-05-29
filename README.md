@@ -37,7 +37,11 @@ This will seed some records for the models `Hotel`, `Flight` `Location`, `Tour`,
 
 ## Usage
 
-Every response is in JSON format
+This project is an API that uses JWT tokens to authenticate all of its endpoints save the `register`, `login`, `payment.gateway.callback` endpoint
+
+Therefore, every request besides the indicated endpoint must supply a Bearer token in the header
+
+Every response is in JSON format.
 
 ### Travel Options API Endpoints
 
@@ -91,7 +95,10 @@ The application uses these endpoints
 - `payments`
   - only admin can view payments
 - `payment/pay`
-  - a user can initiate payment for a booking, after which payment from the gateway will automatically initiate a callback to the route below
+  - a user can initiate POST request payment for a booking, with the payload `booking_id`, `amount`, `currency`, `email` 
+    - usually, a frontend will use the `booking_id` to query the amount
+    - the email can be taken from the user's session given the user will always be signed in  
+    - payment from the gateway will automatically initiate a callback to the route below
 - `payment/gateways/{provider}/callback/{reference}`
   - this route will verify the payment then upon successful payment verification, a transaction to save payment and update booking status to database will get called. 
 
