@@ -6,7 +6,6 @@ use App\Http\Requests\StoreStatusRequest;
 use App\Http\Requests\UpdateStatusRequest;
 use App\Http\Resources\StatusResource;
 use App\Models\Status;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Cache;
 
 class StatusController extends Controller
@@ -15,7 +14,7 @@ class StatusController extends Controller
     {
         $this->authorizeResource(Status::class);
     }
-    public function index(): AnonymousResourceCollection
+    public function index()
     {
         $cacheKey = 'statuses';
         $cacheTime = 3600;
@@ -28,9 +27,9 @@ class StatusController extends Controller
         return new StatusResource($status);
     }
 
-    public function show(Status $status): StatusResource
+    public function show(Status $status)
     {
-        $cacheKey = 'status_' . $status;
+        $cacheKey = 'status_' . $status->id;
         $cacheTime = 3600;
         return Cache::remember($cacheKey, $cacheTime, function () use ($status) {
             return new StatusResource($status);

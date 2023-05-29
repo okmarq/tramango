@@ -11,7 +11,6 @@ use App\Http\Requests\StoreTravelOptionRequest;
 use App\Http\Requests\UpdateTravelOptionRequest;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
 
@@ -22,7 +21,7 @@ class TravelOptionController extends Controller
         $this->authorizeResource(TravelOption::class);
     }
 
-    public function index(): AnonymousResourceCollection
+    public function index()
     {
         $cacheKey = 'travel_options';
         $cacheTime = 3600;
@@ -66,9 +65,9 @@ class TravelOptionController extends Controller
         }
     }
 
-    public function show(TravelOption $travelOption): TravelOptionResource
+    public function show(TravelOption $travelOption)
     {
-        $cacheKey = 'travel_option_' . $travelOption;
+        $cacheKey = 'travel_option_' . $travelOption->id;
         $cacheTime = 3600;
         return Cache::remember($cacheKey, $cacheTime, function () use ($travelOption) {
             return new TravelOptionResource($travelOption);
