@@ -25,8 +25,7 @@ class UpdateBookingRequest extends FormRequest
         return [
             'user_id' => 'required',
             'travel_option_id' => 'required',
-            'guests' => 'required',
-            'status_id' => 'required'
+            'guests' => 'required'
         ];
     }
 }
