@@ -1,66 +1,302 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Tramango API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Tramango is an agency that provides travel options to its customers with the goal of making the process effortless and enjoyable.
 
-## About Laravel
+## About Project
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+A backend-focused application using PHP and Laravel that provides an API for managing travel bookings. The application allows users to search for available travel options, make bookings, retrieve booking details, and perform basic CRUD operations on booking data.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Prerequisites
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- Laravel
+- Database
+- Payment Gateways
 
-## Learning Laravel
+## Installation
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+clone the Tramango API project
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+`git clone https://github.com/okmarq/tramango.git`
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+change directory into the Tramango API project
 
-## Laravel Sponsors
+`cd tramango`
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+rename the .env.example file to .env, filling out the required details
+- `DB_DATABASE`
+- `DB_USERNAME`
+- `DB_PASSWORD`
+- `PAYSTACK_PUBLIC`
+- `PAYSTACK_SECRET`
 
-### Premium Partners
+run `php artisan key:generate`
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+run `php artisan migrate --seed` 
+
+This will seed some records for the models `Hotel`, `Flight` `Location`, `Tour`, `Role`, `Status`, `TravelOption`.
+
+## Usage
+
+This project is an API that uses JWT tokens to authenticate all of its endpoints save the `register`, `login`, `payment.gateway.callback` endpoint
+
+Therefore, every request besides the indicated endpoint must supply a Bearer token in the header
+
+Every response is in JSON format.
+
+### Travel Options API Endpoints
+
+- `travels`
+  - A user can view any travel option
+  - An admin can crud travel options
+- `travel/search`
+  - A user can search for travel options by `type`, `location_id`, `date`, `min_price or 0`, and `max_price`
+
+### Booking API Endpoints
+
+- `bookings`
+  - a signed-in user can create from a travel option
+  - additionally, a user can view, update, soft delete (cancel) and restore its own booking
+  - an admin can view any, restore (after Tramango is sure the user wil not have a change of heart) and force delete a booking
+
+The application uses these endpoints
+
+- `register`
+  - Description: to register a user
+  - Parameters: `first_name`, `last_name`, `email`, `password`, `password_confirmation`
+  - Returns: 201 http code, User resource and JWT token
+- `login`
+  - Description: to sign in a user
+  - Parameters: `email`, `password`
+  - Returns: 200 http code, User resource and JWT token
+- `admin/register`
+  - Description: to register an admin user (can be done by only another admin user)
+  - Parameters: `first_name`, `last_name`, `email`, `password`, `password_confirmation`
+  - Returns: 201 http code, User resource and JWT token 
+- `logout`
+  - Description: to sign out a user
+  - Parameters: none
+  - Returns: 200 http code and logged out message
+- `bookings`
+  - create
+    - Description: create a booking
+    - Parameters: `user_id`, `travel_option_id`, `guest`
+    - Returns: 201 http code, Booking resource
+  - read
+    - Description: retrieve bookings
+    - Parameters: none
+    - Returns: 200 http code and Booking collection
+  - read
+      - Description: retrieve booking
+      - Parameters: `id`
+      - Returns: 200 http code and Booking resource
+  - update
+    - Description: update booking
+    - Parameters: `user_id`, `travel_option_id`, `guest`
+    - Returns: 200 http code and Booking resource
+  - delete
+    - Description: delete booking
+    - Parameters: none
+    - Returns: 204 http code
+- `flights`
+    - crud flights (admin only)
+    - create
+        - Description: create a flight
+        - Parameters: `name`
+        - Returns: 201 http code, Flight resource
+    - read
+        - Description: retrieve flights
+        - Parameters: none
+        - Returns: 200 http code and Flight collection
+    - read
+        - Description: retrieve flight
+        - Parameters: `id`
+        - Returns: 200 http code and Flight resource
+    - update
+        - Description: update flight
+        - Parameters: `name`
+        - Returns: 200 http code and Flight resource
+    - delete
+        - Description: delete flight
+        - Parameters: none
+        - Returns: 204 http code
+- `hotels`
+    - crud hotels (admin only)
+    - create
+        - Description: create a hotel
+        - Parameters: `name`
+        - Returns: 201 http code, Hotel resource
+    - read
+        - Description: retrieve hotels
+        - Parameters: none
+        - Returns: 200 http code and Hotel collection
+    - read
+        - Description: retrieve hotel
+        - Parameters: `id`
+        - Returns: 200 http code and Hotel resource
+    - update
+        - Description: update hotel
+        - Parameters: `name`
+        - Returns: 200 http code and Hotel resource
+    - delete
+        - Description: delete hotel
+        - Parameters: none
+        - Returns: 204 http code
+- `tours`
+    - crud tours (admin only)
+    - create
+        - Description: create a tour
+        - Parameters: `name`
+        - Returns: 201 http code, Tour resource
+    - read
+        - Description: retrieve tours
+        - Parameters: none
+        - Returns: 200 http code and Tour collection
+    - read
+        - Description: retrieve tour
+        - Parameters: `id`
+        - Returns: 200 http code and Tour resource
+    - update
+        - Description: update tour
+        - Parameters: `name`
+        - Returns: 200 http code and Tour resource
+    - delete
+        - Description: delete tour
+        - Parameters: none
+        - Returns: 204 http code
+- `roles`
+    - crud roles (admin only)
+    - create
+        - Description: create a role
+        - Parameters: `name`
+        - Returns: 201 http code, Role resource
+    - read
+        - Description: retrieve roles
+        - Parameters: none
+        - Returns: 200 http code and Role collection
+    - read
+        - Description: retrieve role
+        - Parameters: `id`
+        - Returns: 200 http code and Role resource
+    - update
+        - Description: update role
+        - Parameters: `name`
+        - Returns: 200 http code and Role resource
+    - delete
+        - Description: delete role
+        - Parameters: none
+        - Returns: 204 http code
+- `locations`
+    - crud locations (admin only)
+    - create
+        - Description: create a location
+        - Parameters: `name`
+        - Returns: 201 http code, Location resource
+    - read
+        - Description: retrieve locations
+        - Parameters: none
+        - Returns: 200 http code and Location collection
+    - read
+        - Description: retrieve location
+        - Parameters: `id`
+        - Returns: 200 http code and Location resource
+    - update
+        - Description: update location
+        - Parameters: `name`
+        - Returns: 200 http code and Location resource
+    - delete
+        - Description: delete location
+        - Parameters: none
+        - Returns: 204 http code
+- `statuses`
+    - crud statuses (admin only)
+    - create
+        - Description: create a status
+        - Parameters: `name`
+        - Returns: 201 http code, Status resource
+    - read
+        - Description: retrieve statuses
+        - Parameters: none
+        - Returns: 200 http code and Status collection
+    - read
+        - Description: retrieve status
+        - Parameters: `id`
+        - Returns: 200 http code and Status resource
+    - update
+        - Description: update status
+        - Parameters: `name`
+        - Returns: 200 http code and Status resource
+    - delete
+        - Description: delete status
+        - Parameters: none
+        - Returns: 204 http code
+- `travels`
+    - c-ud travel options (admin only)
+    - create
+        - Description: create a travel option
+        - Parameters: `type`, `travel_id`, `travel_type`, `location_id`, `price`, `start_date`, `end_date`
+        - Returns: 201 http code, Travel option resource
+    - update
+        - Description: update travel option
+        - Parameters: `type`, `travel_id`, `travel_type`, `location_id`, `price`, `start_date`, `end_date`
+        - Returns: 200 http code and Travel option resource
+    - delete
+        - Description: delete travel option
+        - Parameters: none
+        - Returns: 204 http code
+  - non-admin user allowed endpoints
+  - read
+      - Description: retrieve travel options
+      - Parameters: none
+      - Returns: 200 http code and Travel option collection
+  - read
+      - Description: retrieve travel option
+      - Parameters: `id`
+      - Returns: 200 http code and Travel option resource
+  - everyone can read travel options. 
+    - I reckon this endpoint will receive over 75% of all the requests coming to Tramango
+    - it can be scaled vertically when the server load is close to being exceeded via additional servers with a load balancer
+- `travel/search`
+    - search travel options
+      - Description:
+      - Parameters: `type`, `location_id`, `date`, `price`
+      - Returns: 200 http code and Travel option collection
+- `users`
+    - read users (admin only)
+        - Description: retrieve users
+        - Parameters: none
+        - Returns: 200 http code and User collection
+    - a user can read own profile
+        - Description: retrieve user
+        - Parameters: `id`
+        - Returns: 200 http code and User resource
+- `payments`
+  - only admin can view payments
+    - Description: retrieve payments
+    - Parameters: none
+    - Returns: 200 http code and Payment collection
+- `payment/pay`
+  - a user can initiate POST request payment for a booking, with the payload `booking_id`, `amount`, `currency`, `email` 
+    - usually, a frontend will use the `booking_id` to query the amount
+    - the email can be taken from the user's session given the user will always be signed in  
+    - payment from the gateway will automatically initiate a callback to the route below
+  - Description: make payment
+  - Parameters: `booking_id`, `amount`, `currency`, `email`
+  - Returns: 201 http code and Payment information payload for transaction verification
+- `payment/gateways/{provider}/callback/{reference}`
+  - this route will verify the payment then upon successful payment verification
+    - transaction to save payment and update booking status to database will get called
+  - Description: verify payment
+  - Parameters: `provider`, `reference`, other details are provided from the payment payload automatically
+  - Returns: 201 http code and payment successful message
 
 ## Contributing
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+All contributions are welcome.
 
-## Code of Conduct
+## Contact
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+You can contact me at [okmarq@gmail.com](mailto:okmarq@gmail.com 'Joel Okoromi')
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+This project uses no license

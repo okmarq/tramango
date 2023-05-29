@@ -4,13 +4,17 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -18,7 +22,8 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'first_name',
+        'last_name',
         'email',
         'password',
     ];
@@ -31,6 +36,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'pivot'
     ];
 
     /**
@@ -42,4 +48,29 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function roles(): BelongsToMany
+    {
+        return $this->belongsToMany(Role::class);
+    }
+    public function bookings(): HasMany
+    {
+        return $this->hasMany(Booking::class);
+    }
+    public function hasRole(string|array|int $role): bool
+    {
+        if (is_string($role)) return $this->roles->contains('name', $role);
+        if (is_array($role)) return in_array($role, $this->roles);
+        if (is_int($role)) return Role::find($role)->name;
+        # if collection // return !!$role->intersect($this->roles)->count();
+        return false;
+    }
+    public function isAdmin(): bool
+    {
+        return $this->hasRole('admin');
+    }
+    public function bookingPayments(): HasManyThrough
+    {
+        return $this->HasManyThrough(Payment::class, Booking::class);
+    }
 }
