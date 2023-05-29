@@ -33,7 +33,7 @@ class TravelOptionController extends Controller
         $cacheKey = 'travel_options_'.$request['type'].'_'.$request['location_id'].'_'.$request['date'].'_'.$request['price'];
         $cacheTime = 3600;
         $date = Carbon::parse($request['date'])->format('Y-m-d');
-        return Cache::remember($cacheKey, $cacheTime, fn () => TravelOptionResource::collection(TravelOption::where('type', $request['type'])->orWhere('location_id', $request['location_id'])->whereDate('start_date', '<', $date)->whereDate('end_date', '>', $date)->orWhereBetween('price', [0, $request['price']])->get()));
+        return Cache::remember($cacheKey, $cacheTime, fn () => TravelOptionResource::collection(TravelOption::where('type', $request['type'])->orWhere('location_id', $request['location_id'])->whereDate('start_date', '<', $date)->whereDate('end_date', '>', $date)->orWhereBetween('price', [$request['min_price'] ?? 0, $request['max_price']])->get()));
     }
 
     public function store(StoreTravelOptionRequest $request): TravelOptionResource

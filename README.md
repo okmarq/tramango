@@ -1,90 +1,99 @@
-# Innoscripta API
+# Tramango API
 
-Innoscripta App is a news aggregator website that pulls articles from various sources and displays them in a clean, easy-to-read format
-
-provide a search type and term to retrieve specific travel options
-for example provide flight and search term for flight to get a list of travel options for flight
+Tramango is an agency that provides travel options to its customers with the goal of making the process effortless and enjoyable.
 
 ## About Project
 
-- User authentication and registration
-    - Create an account
-    - Log in to save preferences and settings
-- Article search and filtering
-    - Search for articles by keyword
-    - Filter search results by date, category, and source
-- Personalized news feed
-    - Customizable news feed
-    - Select preferred sources, categories, and authors
-- Mobile-responsive design
-    - Optimized for viewing on mobile devices
-
-Data sources used were The Guardian, New York Times, and NewsAPI.org
+A backend-focused application using PHP and Laravel that provides an API for managing travel bookings. The application allows users to search for available travel options, make bookings, retrieve booking details, and perform basic CRUD operations on booking data.
 
 ## Prerequisites
 
 - Laravel
-- React
 - Database
+- Payment Gateways
 
 ## Installation
 
-After acquiring the app on your local machine
-run `php artisan migrate --seed`
-Use the endpoints or the front end to interact with the api
+clone the Tramango API project
+
+`git clone https://github.com/okmarq/tramango.git`
+
+change directory into the Tramango API project
+
+`cd tramango`
+
+rename the .env.example file to .env, filling out the required details
+- `DB_DATABASE`
+- `DB_USERNAME`
+- `DB_PASSWORD`
+- `PAYSTACK_PUBLIC`
+- `PAYSTACK_SECRET`
+
+run `php artisan key:generate`
+
+run `php artisan migrate --seed` 
+
+This will seed some records for the models `Hotel`, `Flight` `Location`, `Tour`, `Role`, `Status`, `TravelOption`.
 
 ## Usage
 
+Every response is in JSON format
+
+### Travel Options API Endpoints
+
+- `travels`
+  - A user can view any travel option
+  - An admin can crud travel options
+- `travel/search`
+  - A user can search for travel options by `type`, `location_id`, `date`, `min_price or 0`, and `max_price`
+
+### Booking API Endpoints
+
+- `bookings`
+  - a signed-in user can create from a travel option
+  - additionally, a user can view, update, soft delete (cancel) and restore its own booking
+  - an admin can view any, restore (after Tramango is sure the user wil not have a change of heart) and force delete a booking
+
 The application uses these endpoints
-`/register`
-`/login`
-`/logout`
-`/preference/save`
-`/articles`
-`/article/search`
 
-clone the Innoscripta project
-`git clone https://github.com/okmarq/innoscripta.git`
-
-change directory into the Innoscripta project
-`cd innoscripta`
-
-rename the .env.example file to .env, filling out the required details
-`DB_DATABASE`
-`DB_USERNAME`
-`DB_PASSWORD`
-
-clone the Innoscripta Laravel project
-`git clone https://github.com/okmarq/innoscripta-laravel.git`
-
-change directory into the Innoscripta Laravel project
-`cd innoscripta-laravel`
-
-rename the .env.example file to .env, filling out the required details
-`DB_DATABASE`
-`DB_USERNAME`
-`DB_PASSWORD`
-`GUARDIAN_API_KEY`
-`NYTIMES_API_KEY`
-`NEWSAPI_API_KEY`
-
-run the following commands
-`php artisan key:generate`
-
-change directory into the Innoscripta React project
-`cd ../innoscripta-react`
-
-clone the Innoscripta React project
-`git clone https://github.com/okmarq/innoscripta-react.git`
-
-change directory into the Innoscripta project
-`cd ..`
-
-run the following commands
-`docker-compose up --build`
-
-visit the react application at
-`http://localhost:5173`
+- `register`
+  - to register a user 
+- `login`
+  - to sign in a user 
+- `admin/register`
+  - to register an admin user (can be done by only another admin user) 
+- `logout`
+  - to sign out a user 
+- `bookings`
+  - crud bookings 
+- `flights`
+    - crud flights (admin only)
+- `hotels`
+    - crud hotels (admin only)
+- `tours`
+    - crud tours (admin only)
+- `roles`
+    - crud roles (admin only)
+- `locations`
+    - crud locations (admin only)
+- `statuses`
+    - crud statuses (admin only)
+- `travels`
+    - c-ud travel options (admin only)
+    - everyone can read travel options. 
+      - I reckon this endpoint will receive over 75% of all the requests coming to Tramango
+      - it can be scaled vertically when the server load is close to being exceeded via additional servers with a load balancer
+- `travel/search`
+    - search travel options
+- `users`
+    - read users (admin only)
+    - a user can read own profile
+- `payments`
+  - only admin can view payments
+- `payment/pay`
+  - a user can initiate payment for a booking, after which payment from the gateway will automatically initiate a callback to the route below
+- `payment/gateways/{provider}/callback/{reference}`
+  - this route will verify the payment then upon successful payment verification, a transaction to save payment and update booking status to database will get called. 
 
 ## Contributing
 

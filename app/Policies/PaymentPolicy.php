@@ -16,32 +16,32 @@ class PaymentPolicy
         return $user->isAdmin();
     }
 
-    public function view(User $user, Payment $payment): bool
+    public function view(User $user): bool
     {
-        return $user->isAdmin() || $user->bookingPayments()->contains($payment->_id);
+        return $user->isAdmin();
     }
 
-    public function create(User $user): bool
+    public function create(): bool
     {
         return true;
     }
 
-    public function update(User $user, Payment $payment): bool
+    public function update(): bool
     {
         return false;
     }
 
-    public function delete(User $user, Payment $payment): bool
+    public function delete(): bool
     {
         return false;
     }
 
-    public function restore(User $user, Payment $payment): bool
+    public function restore(): bool
     {
         return false;
     }
 
-    public function forceDelete(User $user, Payment $payment): bool
+    public function forceDelete(): bool
     {
         return false;
     }

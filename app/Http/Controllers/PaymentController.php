@@ -11,6 +11,7 @@ use App\Models\Status;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Laravel\SerializableClosure\Exceptions\PhpVersionNotSupportedException;
@@ -67,31 +68,33 @@ class PaymentController extends Controller
         $cacheTime = 3600;
         return Cache::remember($cacheKey, $cacheTime, fn () => PaymentResource::collection(Payment::all()));
     }
-
-    public function store(StorePaymentRequest $request): PaymentResource
-    {
-        $payment = Payment::create($request->all());
-        return new PaymentResource($payment);
-    }
-
-    public function show(Payment $payment): PaymentResource
-    {
-        $cacheKey = 'payment_' . $payment;
-        $cacheTime = 3600;
-        return Cache::remember($cacheKey, $cacheTime, function () use ($payment) {
-            return new PaymentResource($payment);
-        });
-    }
-
-    public function update(UpdatePaymentRequest $request, Payment $payment): PaymentResource
-    {
-        $payment->update($request->all());
-        return new PaymentResource($payment);
-    }
-
-    public function destroy(Payment $payment): Response
-    {
-        $payment->delete();
-        return response(null, 204);
-    }
+//
+//    public function store(StorePaymentRequest $request): PaymentResource
+//    {
+//        $payment = Payment::create($request->all());
+//        return new PaymentResource($payment);
+//    }
+//
+//    public function show(Payment $payment)#: PaymentResource
+//    {
+//        $user = Auth::user();
+//        return $user->bookingPayments;#->bookings;
+//        $cacheKey = 'payment_' . $payment;
+//        $cacheTime = 3600;
+//        return Cache::remember($cacheKey, $cacheTime, function () use ($payment) {
+//            return new PaymentResource($payment);
+//        });
+//    }
+//
+//    public function update(UpdatePaymentRequest $request, Payment $payment): PaymentResource
+//    {
+//        $payment->update($request->all());
+//        return new PaymentResource($payment);
+//    }
+//
+//    public function destroy(Payment $payment): Response
+//    {
+//        $payment->delete();
+//        return response(null, 204);
+//    }
 }

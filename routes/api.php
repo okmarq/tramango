@@ -54,7 +54,8 @@ Route::group(['middleware'=> ['auth:sanctum']], function() {
 
     Route::apiResource('users', UserController::class);
 
-    Route::apiResource('payments',PaymentController::class);
+//    Route::apiResource('payments',PaymentController::class);
+    Route::get('payments',[PaymentController::class, 'index']);
     Route::post('payment/pay', [PaymentController::class, 'pay'])->name('payment');
 });
 

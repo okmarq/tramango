@@ -21,7 +21,7 @@ class TravelOptionResource extends JsonResource
             'price' => $this->price,
             'start_date'=> $this->start_date,
             'end_date'=> $this->end_date,
-            'bookings' => BookingResource::collection($this->bookings)
+//            'bookings' => BookingResource::collection($this->bookings)
         ];
     }
 }
