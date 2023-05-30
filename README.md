@@ -328,7 +328,7 @@ The application uses these endpoints
   - Parameters: `booking_id`, `amount`, `currency`, `email`
   - Returns: 201 http code and Payment information payload for transaction verification
   - Method: POST
-- `api/api/payment/gateways/{provider}/callback/{reference}`
+- `api/payment/gateways/{provider}/callback/{reference}`
   - this route will verify the payment then upon successful payment verification
     - transaction to save payment and update booking status to database will get called
   - Description: verify payment
