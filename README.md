@@ -60,234 +60,281 @@ Every response is in JSON format.
 
 The application uses these endpoints
 
-- `register`
+- `api/register`
   - Description: to register a user
   - Parameters: `first_name`, `last_name`, `email`, `password`, `password_confirmation`
   - Returns: 201 http code, User resource and JWT token
-- `login`
+- `api/login`
   - Description: to sign in a user
   - Parameters: `email`, `password`
   - Returns: 200 http code, User resource and JWT token
-- `admin/register`
+- `api/admin/register`
   - Description: to register an admin user (can be done by only another admin user)
   - Parameters: `first_name`, `last_name`, `email`, `password`, `password_confirmation`
   - Returns: 201 http code, User resource and JWT token 
-- `logout`
+- `api/logout`
   - Description: to sign out a user
   - Parameters: none
   - Returns: 200 http code and logged out message
-- `bookings`
+- `api/bookings`
   - create
     - Description: create a booking
     - Parameters: `user_id`, `travel_option_id`, `guest`
     - Returns: 201 http code, Booking resource
+    - Method: POST
   - read
     - Description: retrieve bookings
     - Parameters: none
     - Returns: 200 http code and Booking collection
+    - Method: GET
   - read
       - Description: retrieve booking
       - Parameters: `id`
       - Returns: 200 http code and Booking resource
+      - Method: GET
   - update
     - Description: update booking
     - Parameters: `user_id`, `travel_option_id`, `guest`
     - Returns: 200 http code and Booking resource
+    - Method: PUT
   - delete
     - Description: delete booking
     - Parameters: none
     - Returns: 204 http code
-- `flights`
+    - Method: DELETE
+- `api/flights`
     - crud flights (admin only)
     - create
         - Description: create a flight
         - Parameters: `name`
         - Returns: 201 http code, Flight resource
+        - Method: POST
     - read
         - Description: retrieve flights
         - Parameters: none
         - Returns: 200 http code and Flight collection
+        - Method: GET
     - read
         - Description: retrieve flight
         - Parameters: `id`
         - Returns: 200 http code and Flight resource
+        - Method: GET
     - update
         - Description: update flight
         - Parameters: `name`
         - Returns: 200 http code and Flight resource
+        - Method: PUT
     - delete
         - Description: delete flight
         - Parameters: none
         - Returns: 204 http code
-- `hotels`
+        - Method: DELETE
+- `api/hotels`
     - crud hotels (admin only)
     - create
         - Description: create a hotel
         - Parameters: `name`
         - Returns: 201 http code, Hotel resource
+        - Method: POST
     - read
         - Description: retrieve hotels
         - Parameters: none
         - Returns: 200 http code and Hotel collection
+        - Method: GET
     - read
         - Description: retrieve hotel
         - Parameters: `id`
         - Returns: 200 http code and Hotel resource
+        - Method: GET
     - update
         - Description: update hotel
         - Parameters: `name`
         - Returns: 200 http code and Hotel resource
+        - Method: PUT
     - delete
         - Description: delete hotel
         - Parameters: none
         - Returns: 204 http code
-- `tours`
+        - Method: DELETE
+- `api/tours`
     - crud tours (admin only)
     - create
         - Description: create a tour
         - Parameters: `name`
         - Returns: 201 http code, Tour resource
+        - Method: POST
     - read
         - Description: retrieve tours
         - Parameters: none
         - Returns: 200 http code and Tour collection
+        - Method: GET
     - read
         - Description: retrieve tour
         - Parameters: `id`
         - Returns: 200 http code and Tour resource
+        - Method: GET
     - update
         - Description: update tour
         - Parameters: `name`
         - Returns: 200 http code and Tour resource
+        - Method: PUT
     - delete
         - Description: delete tour
         - Parameters: none
         - Returns: 204 http code
-- `roles`
+        - Method: DELETE
+- `api/roles`
     - crud roles (admin only)
     - create
         - Description: create a role
         - Parameters: `name`
         - Returns: 201 http code, Role resource
+        - Method: POST
     - read
         - Description: retrieve roles
         - Parameters: none
         - Returns: 200 http code and Role collection
+        - Method: GET
     - read
         - Description: retrieve role
         - Parameters: `id`
         - Returns: 200 http code and Role resource
+        - Method: GET
     - update
         - Description: update role
         - Parameters: `name`
         - Returns: 200 http code and Role resource
+        - Method: PUT
     - delete
         - Description: delete role
         - Parameters: none
         - Returns: 204 http code
-- `locations`
+        - Method: DELETE
+- `api/locations`
     - crud locations (admin only)
     - create
         - Description: create a location
         - Parameters: `name`
         - Returns: 201 http code, Location resource
+        - Method: POST
     - read
         - Description: retrieve locations
         - Parameters: none
         - Returns: 200 http code and Location collection
+        - Method: GET
     - read
         - Description: retrieve location
         - Parameters: `id`
         - Returns: 200 http code and Location resource
+        - Method: GET
     - update
         - Description: update location
         - Parameters: `name`
         - Returns: 200 http code and Location resource
+        - Method: PUT
     - delete
         - Description: delete location
         - Parameters: none
         - Returns: 204 http code
-- `statuses`
+        - Method: DELETE
+- `api/statuses`
     - crud statuses (admin only)
     - create
         - Description: create a status
         - Parameters: `name`
         - Returns: 201 http code, Status resource
+        - Method: POST
     - read
         - Description: retrieve statuses
         - Parameters: none
         - Returns: 200 http code and Status collection
+        - Method: GET
     - read
         - Description: retrieve status
         - Parameters: `id`
         - Returns: 200 http code and Status resource
+        - Method: GET
     - update
         - Description: update status
         - Parameters: `name`
         - Returns: 200 http code and Status resource
+        - Method: PUT
     - delete
         - Description: delete status
         - Parameters: none
         - Returns: 204 http code
-- `travels`
+        - Method: DELETE
+- `api/travels`
     - c-ud travel options (admin only)
     - create
         - Description: create a travel option
         - Parameters: `type`, `travel_id`, `travel_type`, `location_id`, `price`, `start_date`, `end_date`
         - Returns: 201 http code, Travel option resource
+        - Method: POST
     - update
         - Description: update travel option
         - Parameters: `type`, `travel_id`, `travel_type`, `location_id`, `price`, `start_date`, `end_date`
         - Returns: 200 http code and Travel option resource
+        - Method: PUT
     - delete
         - Description: delete travel option
         - Parameters: none
         - Returns: 204 http code
+        - Method: DELETE
   - non-admin user allowed endpoints
   - read
       - Description: retrieve travel options
       - Parameters: none
       - Returns: 200 http code and Travel option collection
+      - Method: GET
   - read
       - Description: retrieve travel option
       - Parameters: `id`
       - Returns: 200 http code and Travel option resource
+      - Method: GET
   - everyone can read travel options. 
     - I reckon this endpoint will receive over 75% of all the requests coming to Tramango
     - it can be scaled vertically when the server load is close to being exceeded via additional servers with a load balancer
-- `travel/search`
+- `api/travel/search`
     - search travel options
       - Description:
       - Parameters: `type`, `location_id`, `date`, `price`
       - Returns: 200 http code and Travel option collection
-- `users`
+      - Method: GET
+- `api/users`
     - read users (admin only)
         - Description: retrieve users
         - Parameters: none
         - Returns: 200 http code and User collection
-    - a user can read own profile
-        - Description: retrieve user
+        - Method: GET
+    - read user
+        - Description: retrieve user own profile
         - Parameters: `id`
         - Returns: 200 http code and User resource
-- `payments`
+        - Method: GET
+- `api/payments`
   - only admin can view payments
     - Description: retrieve payments
     - Parameters: none
     - Returns: 200 http code and Payment collection
-- `payment/pay`
+    - Method: GET
+- `api/payment/pay`
   - a user can initiate POST request payment for a booking, with the payload `booking_id`, `amount`, `currency`, `email` 
     - usually, a frontend will use the `booking_id` to query the amount
     - the email can be taken from the user's session given the user will always be signed in  
     - payment from the gateway will automatically initiate a callback to the route below
+    - follow the checkout url from the return payload to got to paystack's gateway to complete payment
   - Description: make payment
   - Parameters: `booking_id`, `amount`, `currency`, `email`
   - Returns: 201 http code and Payment information payload for transaction verification
-- `payment/gateways/{provider}/callback/{reference}`
+  - Method: POST
+- `api/api/payment/gateways/{provider}/callback/{reference}`
   - this route will verify the payment then upon successful payment verification
     - transaction to save payment and update booking status to database will get called
   - Description: verify payment
   - Parameters: `provider`, `reference`, other details are provided from the payment payload automatically
   - Returns: 201 http code and payment successful message
+  - Method: POST
 
 ## Contributing
 
